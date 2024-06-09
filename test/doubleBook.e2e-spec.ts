@@ -9,11 +9,14 @@ import {
 } from './utils';
 
 jest.setTimeout(60000);
-describe('Happy Path (e2e)', () => {
+describe('Double Book (e2e)', () => {
   let app: INestApplication;
   let mongod;
   let adminToken;
-  let createMovieDto: CreateMovieDto;
+  const createMovieDto: CreateMovieDto = {
+    name: 'a Movie 1',
+    ageRestriction: 14,
+  };
   let movieId;
 
   beforeAll(async () => {

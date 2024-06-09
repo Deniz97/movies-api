@@ -8,7 +8,7 @@ import { HttpException } from '@nestjs/common';
 describe('SessionsService', () => {
   let prismasService: PrismaService;
   let sessionsService: SessionsService;
-  let sessionFuture: Session = {
+  const sessionFuture: Session = {
     startAt: addHours(startOfHour(new Date()), 1),
     endAt: addHours(startOfHour(new Date()), 2),
     id: '1',
@@ -62,9 +62,9 @@ describe('SessionsService', () => {
       prismasService.session.findFirst = jest
         .fn()
         .mockResolvedValue(sessionFuture);
-      await expect(() => sessionsService.createSession(sessionFuture)).rejects.toThrow(
-        HttpException,
-      );
+      await expect(() =>
+        sessionsService.createSession(sessionFuture),
+      ).rejects.toThrow(HttpException);
       expect(prismasService.session.findFirst).toHaveBeenCalled();
       expect(prismasService.session.create).not.toHaveBeenCalled();
     });

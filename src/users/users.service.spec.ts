@@ -8,7 +8,7 @@ import { PasswordService } from './password.service';
 describe('UsersService', () => {
   let prismasService: PrismaService;
   let usersService: UsersService;
-  let user: User = {
+  const user: User = {
     id: '1',
     email: 'foo@foo.com',
     age: 15,
