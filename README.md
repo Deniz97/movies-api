@@ -18,6 +18,6 @@ Patterns:
 
 Questions:
 - Should we add a refresh token?
-- We can seperate the 'User' from 'Profile', removing the awkwardness of Managers having 'age' field.
+- We can seperate the extract a 'Profile' model out of 'User', removing the awkwardness of Managers having 'age' field.
 - We can make session start and end times enum instead of Datetime.
 - We can move to test-containers instead of InMemoryDatabase for e2e tests for more real-world like testing. Test containers brought issues on my M1 machine.
