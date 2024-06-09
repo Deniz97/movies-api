@@ -55,9 +55,9 @@ describe('AuthService', () => {
 
   describe('login', () => {
     it('happy path', async () => {
-      jwtService.signAsync = jest.fn().mockReturnValue('accessToken');
       usersService.findOneByEmail = jest.fn().mockReturnValue(user);
       passwordService.comparePasswords = jest.fn().mockReturnValue(true);
+      jwtService.signAsync = jest.fn().mockReturnValue('accessToken');
 
       expect(await authService.login(user.email, 'password')).toEqual({
         accessToken: 'accessToken',
@@ -72,9 +72,9 @@ describe('AuthService', () => {
     });
 
     it('wrong email', async () => {
-      jwtService.signAsync = jest.fn().mockReturnValue('accessToken');
       usersService.findOneByEmail = jest.fn().mockReturnValue(null);
       passwordService.comparePasswords = jest.fn().mockReturnValue(true);
+      jwtService.signAsync = jest.fn().mockReturnValue('accessToken');
 
       await expect(() =>
         authService.login(user.email, 'password'),
