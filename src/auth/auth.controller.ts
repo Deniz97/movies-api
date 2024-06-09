@@ -1,6 +1,7 @@
 import { Body, Controller, Post, HttpCode, HttpStatus } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { Anonymous } from 'src/guards/decorators';
+import { Anonymous } from '../guards/decorators';
+import { LoginRequest } from './dtos/LoginRequest';
 
 @Controller('auth')
 export class AuthController {
@@ -9,7 +10,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('login')
   @Anonymous()
-  signIn(@Body() signInDto: Record<string, any>) {
-    return this.authService.signIn(signInDto.email, signInDto.password);
+  signIn(@Body() loginRequest: LoginRequest) {
+    return this.authService.signIn(loginRequest.email, loginRequest.password);
   }
 }

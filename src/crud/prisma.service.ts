@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 
 export type PrismaLogFormat = 'pretty' | 'colorless' | 'minimal';
@@ -6,7 +6,10 @@ export type PrismaLogFormat = 'pretty' | 'colorless' | 'minimal';
 const PRISMA_LOG_FORMAT: PrismaLogFormat =
   (process.env.PRISMA_LOG_FORMAT as PrismaLogFormat) || 'minimal';
 @Injectable()
-export class PrismaService extends PrismaClient implements OnModuleInit {
+export class PrismaService
+  extends PrismaClient
+  implements OnModuleInit, OnModuleDestroy
+{
   constructor() {
     super({
       log: [
@@ -18,5 +21,8 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
   }
   async onModuleInit() {
     await this.$connect();
+  }
+  async onModuleDestroy() {
+    await this.$disconnect();
   }
 }

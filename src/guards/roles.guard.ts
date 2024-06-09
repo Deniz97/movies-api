@@ -11,6 +11,7 @@ import { jwtConstants } from './constants';
 import { Request } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { ROLES_KEY } from './decorators';
+import { JwtUser } from 'src/types/JwtRequest';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -36,23 +37,19 @@ export class RolesGuard implements CanActivate {
     if (!requiredRoles) {
       return true;
     }
-    console.log(
-      `Logging in with user email ${context.switchToHttp().getRequest().user.email} and role ${context.switchToHttp().getRequest().user.role}. Required roles: ${requiredRoles}`,
-    );
-    const { user }: { user: User } = context.switchToHttp().getRequest();
-    return requiredRoles.some((role) => user.role === role);
+    const { user }: { user: JwtUser } = context.switchToHttp().getRequest();
+    const hasRole = requiredRoles.some((role) => user.role === role);
+    return hasRole;
   }
 
   async canActivateAuthGuard(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
-    const secret = this.configService.get<string>('JWT_SECRET');
-    console.log('Token: ', token, ' secret: ', secret);
     if (!token) {
       throw new UnauthorizedException();
     }
     try {
-      const payload = await this.jwtService.verifyAsync(token, {
+      const payload = await this.jwtService.verifyAsync<JwtUser>(token, {
         secret: jwtConstants.secret,
       });
       // 💡 We're assigning the payload to the request object here

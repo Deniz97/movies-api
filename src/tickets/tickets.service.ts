@@ -1,21 +1,17 @@
-import { Body, Controller, Get, Param, Post, Request } from '@nestjs/common';
-import { Movie, Prisma, UserRole } from '@prisma/client';
-import { Roles } from '../guards/decorators';
+import { Movie, Prisma, Ticket } from '@prisma/client';
 import { CreateTicketDto } from './dtos/CreateTicketDto';
-import { PrismaService } from 'src/crud/prisma.service';
-import { JwtRequest } from 'src/types/JwtRequest';
+import { PrismaService } from '../crud/prisma.service';
 import { uniqBy } from 'lodash';
+import { Injectable } from '@nestjs/common';
 
-@Controller('tickets')
-@Roles(UserRole.CUSTOMER)
-export class TicketsController {
+@Injectable()
+export class TicketsService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  @Post()
   createTicket(
-    @Request() req: JwtRequest,
-    @Body() createTicketDto: CreateTicketDto,
-  ) {
+    createTicketDto: CreateTicketDto,
+    userId: string,
+  ): Promise<Ticket> {
     const toCreate: Prisma.TicketCreateInput = {
       session: {
         connect: {
@@ -24,7 +20,7 @@ export class TicketsController {
       },
       user: {
         connect: {
-          id: req.user.id,
+          id: userId,
         },
       },
       hasWatched: false,
@@ -34,12 +30,11 @@ export class TicketsController {
     });
   }
 
-  @Post(':id/watch')
-  watchTicket(@Request() req: JwtRequest, @Param('id') ticketId: string) {
+  async watchTicket(ticketId: string, userId: string): Promise<Ticket> {
     return this.prismaService.ticket.update({
       where: {
         id: ticketId,
-        userId: req.user.id,
+        userId: userId,
       },
       data: {
         hasWatched: true,
@@ -47,12 +42,11 @@ export class TicketsController {
     });
   }
 
-  @Get('/watch-history')
-  async getWatchHistory(@Request() req: JwtRequest): Promise<Movie[]> {
+  async getWatchedMovies(userId: string): Promise<Movie[]> {
     // return list of movies the user has watched
     const movies = await this.prismaService.ticket.findMany({
       where: {
-        userId: req.user.id,
+        userId: userId,
         hasWatched: true,
       },
       include: {

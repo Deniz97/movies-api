@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateMovieDto {
+export class LoginRequest {
   @ApiProperty()
-  name: string;
+  email: string;
   @ApiProperty()
-  ageRestriction: number;
+  password: string;
 }

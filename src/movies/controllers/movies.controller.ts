@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
-import { MoviesService } from './movies.service';
+import { MoviesService } from '../services/movies.service';
 import { UserRole } from '@prisma/client';
-import { Roles } from '../guards/decorators';
+import { Roles } from '../../guards/decorators';
 
 @Controller('movies')
 @Roles(UserRole.CUSTOMER)

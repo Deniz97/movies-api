@@ -1,6 +1,6 @@
 import { Controller, Request, Post, Body } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { JwtRequest, UserwithoutPassword } from 'src/types/JwtRequest';
+import { JwtRequest, UserwithoutPassword } from '../types/JwtRequest';
 import { UserRole } from '@prisma/client';
 import { CreateUserDto } from './dtos/CreateUserDto';
 import { Roles } from '../guards/decorators';
@@ -15,7 +15,10 @@ export class UsersManagerController {
     @Request() req: JwtRequest,
     @Body() createUserDto: CreateUserDto,
   ): Promise<UserwithoutPassword> {
-    const created = await this.usersService.createUser(createUserDto);
+    const created = await this.usersService.createUser(
+      createUserDto,
+      UserRole.CUSTOMER,
+    );
     delete created.hashedPassword;
     return created;
   }

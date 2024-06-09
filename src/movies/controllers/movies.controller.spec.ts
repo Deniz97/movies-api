@@ -1,8 +1,8 @@
 import { Movie } from '@prisma/client';
 import { MoviesController } from './movies.controller';
-import { MoviesService } from './movies.service';
+import { MoviesService } from '../services/movies.service';
 
-describe('CatsController', () => {
+describe('MoviesController', () => {
   let catsController: MoviesController;
   let moviesService: MoviesService;
 
