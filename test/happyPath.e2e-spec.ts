@@ -8,7 +8,6 @@ import {
   spinUpMongo,
 } from './utils';
 
-jest.setTimeout(60000);
 describe('Happy Path (e2e)', () => {
   let app: INestApplication;
 

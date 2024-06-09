@@ -9,6 +9,12 @@ export class MoviesService {
   create(createMovieDto: CreateMovieDto): Promise<Movie> {
     return this.prismaService.movie.create({ data: createMovieDto });
   }
+  createBatch(createMovieDtos: CreateMovieDto[]) {
+    return this.prismaService.movie.createMany({ data: createMovieDtos });
+  }
+  deleteBatch(ids: string[]) {
+    return this.prismaService.movie.deleteMany({ where: { id: { in: ids } } });
+  }
   findAll(): Promise<Movie[]> {
     return this.prismaService.movie.findMany();
   }

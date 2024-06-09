@@ -7,7 +7,6 @@ import {
   spinDownMongo,
 } from './utils';
 
-jest.setTimeout(60000);
 describe('Filter Movies (e2e)', () => {
   let app: INestApplication;
   let mongod;

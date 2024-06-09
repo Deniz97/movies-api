@@ -8,7 +8,6 @@ import {
   spinDownMongo,
 } from './utils';
 
-jest.setTimeout(60000);
 describe('Double Book (e2e)', () => {
   let app: INestApplication;
   let mongod;
