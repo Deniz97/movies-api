@@ -6,7 +6,7 @@ import { PrismaService } from '../../crud/prisma.service';
 describe('MoviesService', () => {
   let prismaService: PrismaService;
   let moviesService: MoviesService;
-  let movie: Movie = {
+  const movie: Movie = {
     id: '1',
     name: 'test',
     ageRestriction: 1,

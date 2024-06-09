@@ -1,6 +1,5 @@
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { addHours, startOfHour } from 'date-fns';
 import { CreateMovieDto } from 'src/movies/dtos/CreateMovieDto';
 import {
   constructAppAndCreateUsers,
@@ -115,6 +114,7 @@ describe('Movie Batch Operations (e2e)', () => {
       .expect(200)
       .expect((res) => {
         expect(res.body.length).toBe(1);
+        expect(res.body[0].id).toBe(movieId2);
         expect(res.body[0].name).toBe(createMovieDto2.name);
         expect(res.body[0].ageRestriction).toBe(createMovieDto2.ageRestriction);
       });

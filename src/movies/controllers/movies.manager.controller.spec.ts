@@ -71,10 +71,9 @@ describe('MoviesManagerController', () => {
         ageRestriction: movie.ageRestriction,
       };
       expect(
-        await moviesManagerController.createMovies([
-          createMovieDto,
-          createMovieDto2,
-        ]),
+        await moviesManagerController.createMovies({
+          movies: [createMovieDto, createMovieDto2],
+        }),
       ).toStrictEqual({ count: 2 });
       expect(moviesService.createBatch).toHaveBeenCalled();
     });

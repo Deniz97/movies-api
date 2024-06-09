@@ -28,9 +28,7 @@ export class MoviesManagerController {
   async createMovies(
     @Body() req: CreateMoviesRequest,
   ): Promise<{ count: number }> {
-    const created = await this.moviesService.createBatch(
-      req.movies,
-    );
+    const created = await this.moviesService.createBatch(req.movies);
     return { count: created.count };
   }
 
