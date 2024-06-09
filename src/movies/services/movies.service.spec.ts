@@ -1,4 +1,4 @@
-import { Movie, PrismaClient } from '@prisma/client';
+import { Movie } from '@prisma/client';
 import { MoviesService } from './movies.service';
 import { Test } from '@nestjs/testing';
 import { PrismaService } from '../../crud/prisma.service';

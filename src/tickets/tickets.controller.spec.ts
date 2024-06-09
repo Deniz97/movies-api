@@ -1,7 +1,7 @@
 import { Movie, Ticket } from '@prisma/client';
 import { TicketsController } from './tickets.controller';
 import { TicketsService } from './tickets.service';
-import { JwtRequest, UserwithoutPassword } from '../types/JwtRequest';
+import { JwtRequest, JwtUser } from '../types/JwtRequest';
 
 describe('TicketsController', () => {
   let controller: TicketsController;
@@ -21,13 +21,12 @@ describe('TicketsController', () => {
     createdAt: new Date(),
     updatedAt: new Date(),
   };
-  const user: UserwithoutPassword = {
-    id: '1',
+  const user: JwtUser = {
+    sub: '1',
     email: 'foo@foo.com',
     role: 'CUSTOMER',
-    age: 20,
-    createdAt: new Date(),
-    updatedAt: new Date(),
+    iat: 1,
+    exp: 1,
   };
   const req = { user } as JwtRequest;
 

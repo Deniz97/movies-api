@@ -2,10 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
-import { MongoMemoryReplSet, MongoMemoryServer } from 'mongodb-memory-server';
-import { PrismaService } from '../src/crud/prisma.service';
+import { MongoMemoryReplSet } from 'mongodb-memory-server';
 import { UsersService } from '../src/users/users.service';
-import { Movie, UserRole } from '@prisma/client';
+import { UserRole } from '@prisma/client';
 import { addHours, startOfHour } from 'date-fns';
 import { CreateMovieDto } from 'src/movies/dtos/CreateMovieDto';
 
@@ -113,7 +112,6 @@ describe('AppController (e2e)', () => {
   });
 
   it('admin posts sessions', async () => {
-    const prismaService = app.get(PrismaService);
     const nextHourStart = addHours(startOfHour(new Date()), 1);
     const nextHourEnd = addHours(nextHourStart, 1);
     return request(app.getHttpServer())

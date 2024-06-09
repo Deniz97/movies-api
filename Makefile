@@ -1,14 +1,17 @@
 dev:
 	npm run start:dev
 
+build:
+	npm run build
+	
 lint:
 	npm run lint
 	npm run format
 
-test:
+unit-tests:
 	npm run test
 
-e2e:
+e2e-tests:
 	npm run test:e2e
 
 verify:

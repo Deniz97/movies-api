@@ -3,13 +3,11 @@ import { Test } from '@nestjs/testing';
 import { PrismaService } from '../crud/prisma.service';
 import { SessionsService } from './sessions.service';
 import { addHours, startOfHour } from 'date-fns';
-import { CrudModule } from '../crud/crud.module';
 
 describe('SessionsService', () => {
   let prismasService: PrismaService;
   let sessionsService: SessionsService;
   let sessionFuture: Session;
-  let sessionPast: Session;
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
@@ -33,14 +31,6 @@ describe('SessionsService', () => {
       startAt: addHours(startOfHour(new Date()), 1),
       endAt: addHours(startOfHour(new Date()), 2),
       id: '1',
-      movieId: '1',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-    sessionPast = {
-      startAt: addHours(startOfHour(new Date()), -2),
-      endAt: addHours(startOfHour(new Date()), -1),
-      id: '2',
       movieId: '1',
       createdAt: new Date(),
       updatedAt: new Date(),
