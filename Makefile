@@ -27,4 +27,13 @@ build_docker:
 	docker build -t movies-api .
 
 run_docker:
-	docker run -p 3001:3001 movies-api
+	docker run -p 3001:3001 --name movies-api -d movies-api
+
+stop_docker:
+	docker stop movies-api || true
+	docker rm movies-api || true
+
+restart_docker:
+	docker stop movies-api || true
+	docker rm movies-api || true
+	docker run -p 3001:3001 --name movies-api -d movies-api
