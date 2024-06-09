@@ -2,16 +2,21 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../crud/prisma.service';
 import { CreateUserRequest } from './dtos/CreateUserRequest';
 import { Prisma, User, UserRole } from '@prisma/client';
-import { hashPassword } from '../utils/passw-hasher';
+import { PasswordService } from './password.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(
+    private prismaService: PrismaService,
+    private passwordService: PasswordService,
+  ) {}
 
   async createUser(createUserDto: CreateUserRequest, role: UserRole) {
     const createData: Prisma.UserCreateInput = {
       email: createUserDto.email,
-      hashedPassword: await hashPassword(createUserDto.password),
+      hashedPassword: await this.passwordService.hashPassword(
+        createUserDto.password,
+      ),
       age: createUserDto.age,
       role: role,
     };
@@ -26,7 +31,7 @@ export class UsersService {
     });
   }
 
-  findOneById(id: string) {
+  findOneById(id: string): Promise<User | null> {
     return this.prismaService.user.findUnique({
       where: { id },
     });

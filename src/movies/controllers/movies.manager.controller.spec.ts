@@ -11,7 +11,7 @@ describe('MoviesManagerController', () => {
     moviesManagerController = new MoviesManagerController(moviesService);
   });
 
-  describe('findAll', () => {
+  describe('get Movies', () => {
     it('should return an array of movies', async () => {
       const result: Movie[] = [
         {
@@ -30,7 +30,7 @@ describe('MoviesManagerController', () => {
     });
   });
 
-  describe('create', () => {
+  describe('create Movie', () => {
     it('should return the created movie', async () => {
       const movie: Movie = {
         id: '1',

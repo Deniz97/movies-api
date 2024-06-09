@@ -1,13 +1,14 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
-import { comparePasswords } from '../utils/passw-hasher';
+import { PasswordService } from '../users/password.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
+    private passwordService: PasswordService,
   ) {}
 
   async signIn(email: string, pass: string): Promise<{ accessToken: string }> {
@@ -15,7 +16,10 @@ export class AuthService {
     if (!user) {
       throw new UnauthorizedException();
     }
-    const validPasswrd = comparePasswords(pass, user.hashedPassword);
+    const validPasswrd = this.passwordService.comparePasswords(
+      pass,
+      user.hashedPassword,
+    );
     if (!validPasswrd) {
       throw new UnauthorizedException();
     }

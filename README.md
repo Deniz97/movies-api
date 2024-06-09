@@ -6,3 +6,5 @@ questions:
 - session start-end times may be enum
 - ayrı tablolar mı yapalım, relationları movies içinde mi yapalım
 - soru: aynı movie-session mı booklanamasın sadece session mı?
+- todo: user manager controller test
+- todo: auth controller test

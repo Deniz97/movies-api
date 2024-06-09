@@ -13,10 +13,10 @@ export class MoviesController {
 
   @Get()
   getMovies(
-    @Query('filterField') filterField: string,
-    @Query('filterKey') filterKey: string,
-    @Query('sortField') sortField: string,
-    @Query('sortOrder') sortOrder: string,
+    @Query('filterField') filterField: string | undefined,
+    @Query('filterKey') filterKey: string | undefined,
+    @Query('sortField') sortField: string | undefined,
+    @Query('sortOrder') sortOrder: string | undefined,
   ) {
     if (!filterField !== !filterKey) {
       throw new HttpException(
