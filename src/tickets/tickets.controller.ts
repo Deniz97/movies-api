@@ -12,9 +12,12 @@ import { Roles } from '../guards/decorators';
 import { CreateTicketDto } from './dtos/CreateTicketDto';
 import { JwtRequest } from '../types/JwtRequest';
 import { TicketsService } from './tickets.service';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('tickets')
 @Roles(UserRole.CUSTOMER)
+@ApiTags('tickets')
+@ApiBearerAuth('ApiKeyAuth')
 export class TicketsController {
   constructor(private readonly ticketService: TicketsService) {}
 

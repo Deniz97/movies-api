@@ -3,9 +3,12 @@ import { MoviesService } from '../services/movies.service';
 import { CreateMovieDto } from '../dtos/CreateMovieDto';
 import { UserRole } from '@prisma/client';
 import { Roles } from '../../guards/decorators';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('movies-manager')
 @Roles(UserRole.MANAGER)
+@ApiTags('movies-manager')
+@ApiBearerAuth('ApiKeyAuth')
 export class MoviesManagerController {
   constructor(private readonly moviesService: MoviesService) {}
 

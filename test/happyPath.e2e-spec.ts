@@ -1,81 +1,39 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
-import { MongoMemoryReplSet } from 'mongodb-memory-server';
-import { UsersService } from '../src/users/users.service';
-import { UserRole } from '@prisma/client';
 import { addHours, startOfHour } from 'date-fns';
 import { CreateMovieDto } from 'src/movies/dtos/CreateMovieDto';
+import {
+  constructAppAndCreateUsers,
+  spinDownMongo,
+  spinUpMongo,
+} from './utils';
 
 jest.setTimeout(60000);
-describe('AppController (e2e)', () => {
+describe('Happy Path (e2e)', () => {
   let app: INestApplication;
-  let usersService: UsersService;
+
   let mongod;
   let adminToken;
   let customerToken;
-  let createMovieDto: CreateMovieDto;
+  const createMovieDto: CreateMovieDto = {
+    name: 'Movie 1',
+    ageRestriction: 10,
+  };
   let customerId;
   let movieId;
   let sessionId;
   let ticketId;
 
   beforeAll(async () => {
-    // mongod = await MongoMemoryServer.create();
-    mongod = await MongoMemoryReplSet.create({
-      replSet: { count: 1, dbName: 'test', storageEngine: 'wiredTiger' },
-    });
-
-    const uri = mongod.getUri();
-    const connectionString =
-      uri.split('?')[0] +
-      'test?' +
-      uri.split('?')[1] +
-      '&retryWrites=true&w=majority';
-    process.env.DATABASE_URL = connectionString;
+    mongod = await spinUpMongo();
+    const res = await constructAppAndCreateUsers();
+    app = res.app;
+    customerId = res.customerId;
   });
 
   afterAll(async () => {
-    await mongod.stop();
-  });
-
-  beforeEach(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
-    app = moduleFixture.createNestApplication();
-    usersService = moduleFixture.get<UsersService>(UsersService);
-    if (!(await usersService.findOneByEmail('customer@customer.com'))) {
-      const customer = await usersService.createUser(
-        {
-          email: 'customer@customer.com',
-          password: 'customer',
-          age: 20,
-        },
-        UserRole.CUSTOMER,
-      );
-      customerId = customer.id;
-    }
-    if (!(await usersService.findOneByEmail('admin@admin.com'))) {
-      await usersService.createUser(
-        {
-          email: 'admin@admin.com',
-          password: 'admin',
-          age: 20,
-        },
-        UserRole.MANAGER,
-      );
-    }
-    createMovieDto = {
-      name: 'Movie 1',
-      ageRestriction: 10,
-    };
-    await app.init();
-  });
-
-  afterEach(async () => {
     await app.close();
+    await spinDownMongo(mongod);
   });
 
   it('/ (GET)', () => {
@@ -111,7 +69,7 @@ describe('AppController (e2e)', () => {
       });
   });
 
-  it('admin posts sessions', async () => {
+  it('admin posts session', async () => {
     const nextHourStart = addHours(startOfHour(new Date()), 1);
     const nextHourEnd = addHours(nextHourStart, 1);
     return request(app.getHttpServer())
@@ -127,6 +85,7 @@ describe('AppController (e2e)', () => {
         expect(res.body.startAt).toBe(nextHourStart.toISOString());
         expect(res.body.endAt).toBe(nextHourEnd.toISOString());
         expect(res.body.movieId).toBe(movieId);
+        sessionId = res.body.id;
       });
   });
 

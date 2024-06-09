@@ -12,4 +12,29 @@ export class MoviesService {
   findAll(): Promise<Movie[]> {
     return this.prismaService.movie.findMany();
   }
+
+  findFiltered(
+    filter: { field: string; key: string } | null,
+    sort: { field: string; order: string } | null,
+  ): Promise<Movie[]> {
+    return this.prismaService.movie.findMany({
+      where: {
+        ...(filter
+          ? {
+              [filter.field]: {
+                contains: filter.key,
+              },
+            }
+          : {}),
+      },
+
+      orderBy: {
+        ...(sort
+          ? {
+              [sort.field]: sort.order,
+            }
+          : {}),
+      },
+    });
+  }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../crud/prisma.service';
-import { CreateUserDto } from './dtos/CreateUserDto';
+import { CreateUserRequest } from './dtos/CreateUserRequest';
 import { Prisma, User, UserRole } from '@prisma/client';
 import { hashPassword } from '../utils/passw-hasher';
 
@@ -8,7 +8,7 @@ import { hashPassword } from '../utils/passw-hasher';
 export class UsersService {
   constructor(private prismaService: PrismaService) {}
 
-  async createUser(createUserDto: CreateUserDto, role: UserRole) {
+  async createUser(createUserDto: CreateUserRequest, role: UserRole) {
     const createData: Prisma.UserCreateInput = {
       email: createUserDto.email,
       hashedPassword: await hashPassword(createUserDto.password),

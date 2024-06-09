@@ -18,6 +18,15 @@ enum UserRole {
   CUSTOMER
 }
 
+enum SessionSlot {
+  slot_12_14
+  slot_14_16
+  slot_16_18
+  slot_18_20
+  slot_20_22
+  slot_22_24
+}
+
 model User {
   id             String   @id @default(auto()) @map("_id") @db.ObjectId
   email          String   @unique

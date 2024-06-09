@@ -3,10 +3,11 @@ import { UserRole } from '@prisma/client';
 import { Roles } from '../guards/decorators';
 import { SessionsService } from './sessions.service';
 import { CreateSessionDto } from './dtos/CreateSessionDto';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('sessions-manager')
 @Roles(UserRole.MANAGER)
+@ApiTags('sessions-manager')
 @ApiBearerAuth('ApiKeyAuth')
 export class SessionsManagerController {
   constructor(private readonly sessionsService: SessionsService) {}
