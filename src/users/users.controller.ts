@@ -2,7 +2,7 @@ import { Controller, Get, Request } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { JwtRequest } from '../types/JwtRequest';
 import { UserRole } from '@prisma/client';
-import { Roles } from '../guards/decorators';
+import { Roles } from '../guards/auth-decorators';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UserDto } from './dtos/UserDto';
 

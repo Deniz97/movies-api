@@ -8,7 +8,7 @@ import {
   Request,
 } from '@nestjs/common';
 import { Movie, Ticket, UserRole } from '@prisma/client';
-import { Roles } from '../guards/decorators';
+import { Roles } from '../guards/auth-decorators';
 import { CreateTicketDto } from './dtos/CreateTicketDto';
 import { JwtRequest } from '../types/JwtRequest';
 import { TicketsService } from './tickets.service';

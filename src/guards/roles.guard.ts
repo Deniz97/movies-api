@@ -9,8 +9,7 @@ import { UserRole } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 import { Request } from 'express';
-import { ConfigService } from '@nestjs/config';
-import { ROLES_KEY } from './decorators';
+import { ROLES_KEY } from './auth-decorators';
 import { JwtUser } from 'src/types/JwtRequest';
 
 @Injectable()
@@ -18,7 +17,6 @@ export class RolesGuard implements CanActivate {
   constructor(
     private reflector: Reflector,
     private jwtService: JwtService,
-    private configService: ConfigService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {

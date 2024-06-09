@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { Session, UserRole } from '@prisma/client';
-import { Roles } from '../guards/decorators';
+import { Roles } from '../guards/auth-decorators';
 import { SessionsService } from './sessions.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 

@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../crud/prisma.service';
 
 @Injectable()
 export class PasswordService {
-  constructor(private prismaService: PrismaService) {}
+  constructor() {}
 
   async hashPassword(password: string): Promise<string> {
     /* eslint-disable @typescript-eslint/no-var-requires */

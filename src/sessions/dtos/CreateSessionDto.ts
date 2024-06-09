@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsDateString } from 'class-validator';
-import { IsDbId } from '../../guards/decorators';
+import { IsDbId } from '../../guards/validation-decorators';
 
 export class CreateSessionDto {
   @ApiProperty()

@@ -1,7 +1,7 @@
 import { Controller, Get, HttpException, Query } from '@nestjs/common';
 import { MoviesService } from '../services/movies.service';
 import { UserRole } from '@prisma/client';
-import { Roles } from '../../guards/decorators';
+import { Roles } from '../../guards/auth-decorators';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('movies')

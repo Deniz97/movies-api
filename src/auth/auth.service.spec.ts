@@ -53,13 +53,13 @@ describe('AuthService', () => {
     passwordService = module.get<PasswordService>(PasswordService);
   });
 
-  describe('signin', () => {
+  describe('login', () => {
     it('happy path', async () => {
       jwtService.signAsync = jest.fn().mockReturnValue('accessToken');
       usersService.findOneByEmail = jest.fn().mockReturnValue(user);
       passwordService.comparePasswords = jest.fn().mockReturnValue(true);
 
-      expect(await authService.signIn(user.email, 'password')).toEqual({
+      expect(await authService.login(user.email, 'password')).toEqual({
         accessToken: 'accessToken',
       });
 
@@ -77,7 +77,7 @@ describe('AuthService', () => {
       passwordService.comparePasswords = jest.fn().mockReturnValue(true);
 
       await expect(() =>
-        authService.signIn(user.email, 'password'),
+        authService.login(user.email, 'password'),
       ).rejects.toThrow(UnauthorizedException);
 
       expect(usersService.findOneByEmail).toHaveBeenCalledWith(user.email);
@@ -91,7 +91,7 @@ describe('AuthService', () => {
       passwordService.comparePasswords = jest.fn().mockReturnValue(false);
 
       await expect(() =>
-        authService.signIn(user.email, 'password'),
+        authService.login(user.email, 'password'),
       ).rejects.toThrow(UnauthorizedException);
 
       expect(usersService.findOneByEmail).toHaveBeenCalledWith(user.email);

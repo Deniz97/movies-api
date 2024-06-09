@@ -3,7 +3,7 @@ import { UsersService } from './users.service';
 import { UserwithoutPassword } from '../types/JwtRequest';
 import { UserRole } from '@prisma/client';
 import { CreateUserRequest } from './dtos/CreateUserRequest';
-import { Roles } from '../guards/decorators';
+import { Roles } from '../guards/auth-decorators';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('users-manager')
